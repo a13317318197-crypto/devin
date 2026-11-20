@@ -71,7 +71,7 @@ export const products = [
   {
     slug: 'phone-wallpaper-pack',
     previews: ['phone'] as PreviewCategory[],
-    price: 9,
+    price: 3,
     gumroadUrl: 'https://YOUR-NAME.gumroad.com/l/phone-wallpaper-pack',
     count: 20,
     ratio: '9:16',
@@ -90,7 +90,7 @@ export const products = [
   {
     slug: 'desktop-wallpaper-pack',
     previews: ['desktop'] as PreviewCategory[],
-    price: 12,
+    price: 5,
     gumroadUrl: 'https://YOUR-NAME.gumroad.com/l/desktop-wallpaper-pack',
     count: 12,
     ratio: '16:9',
@@ -109,7 +109,7 @@ export const products = [
   {
     slug: 'avatar-pack',
     previews: ['avatar'] as PreviewCategory[],
-    price: 6,
+    price: 3,
     gumroadUrl: 'https://YOUR-NAME.gumroad.com/l/avatar-pack',
     count: 12,
     ratio: '1:1',
@@ -128,7 +128,7 @@ export const products = [
   {
     slug: 'complete-bundle',
     previews: ['phone', 'desktop', 'avatar'] as PreviewCategory[],
-    price: 19,
+    price: 9,
     gumroadUrl: 'https://YOUR-NAME.gumroad.com/l/complete-bundle',
     count: 44,
     ratio: '9:16 · 16:9 · 1:1',

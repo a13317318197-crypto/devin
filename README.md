@@ -14,7 +14,7 @@
 - [ ] **3. 购买并绑定域名**：买好域名后，在 Pages 项目的 Custom domains 里绑定。然后把域名填进 `src/content/site.ts` 的 `site.url`（或设置环境变量 `PUBLIC_SITE_URL`）。不填的话 canonical、sitemap、分享图地址都会指向占位域名 `moonlit-ink.example`。
 - [ ] **4. 填真实的 Gumroad 链接**：在 Gumroad 建好 4 个付费商品和 1 个免费商品，把 `src/content/site.ts` 里 5 处 `https://YOUR-NAME.gumroad.com/l/...` 换成真实链接。
 - [ ] **5. 填真实的联系邮箱**：`src/content/site.ts` 的 `site.email`（现在是 `hello@example.com`）。
-- [ ] **6. 核对价格、张数、分辨率、格式**：`src/content/site.ts` 的 `products`。现在的价格（$9 / $12 / $6 / $19）和分辨率是我先填的占位值，要改成和 Gumroad 上、和你实际交付的文件一致。
+- [ ] **6. 核对价格、张数、分辨率、格式**：`src/content/site.ts` 的 `products`。现在的价格是 $3 / $5 / $3 / $9（你选定的），分辨率是我先填的占位值，要改成和 Gumroad 上、和你实际交付的文件一致。
 - [ ] **7. 放原图并生成预览**：把原图放进 `originals/phone`、`originals/desktop`、`originals/avatar`，运行 `npm run previews`，然后把 `public/previews/` 和 `src/generated/previews.json` 提交并推送（详见「水印预览图」）。在这之前，站上显示的是脚本画的示意占位图，并且页面上会明确写着「示意占位图」。
 - [ ] **8. 核对文案和条款**：授权、隐私、条款、退款页是模板，页面末尾写着「模板，上线前请自行核对适用法律」。免费样图页和 FAQ 里对 Gumroad 流程的描述（例如下载方式）也请对照你实际的商品设置看一遍。
 - [ ] **9.（可选）社媒链接与统计**：`site.social` 里填了网址才会显示；Cloudflare Web Analytics 见下文。
