@@ -10,7 +10,7 @@ import sharp from 'sharp';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
 const ORIGINALS = process.env.ORIGINALS_DIR ? path.resolve(process.env.ORIGINALS_DIR) : path.join(ROOT, 'originals');
-const MAX_SIDE = 1280; // 预览图最长边不会超过这个值
+const MAX_WIDTH = 1280; // 预览图按宽度缩小，最宽的是电脑壁纸 1280px；高度随原图比例，不限制
 const IMAGE = /\.(png|jpe?g|webp|gif|avif|tiff?|bmp|psd)$/i;
 
 async function walk(dir) {
@@ -40,7 +40,7 @@ for (const file of images) {
   const name = path.relative(ROOT, file);
   if (!/\.(webp|jpe?g)$/i.test(file)) problems.push('dist 里有非预览格式的图片: ' + name);
   const { width = 0, height = 0 } = await sharp(file).metadata();
-  if (Math.max(width, height) > MAX_SIDE) problems.push(`dist 里有超过预览尺寸的图片 (${width}×${height}): ${name}`);
+  if (width > MAX_WIDTH) problems.push(`dist 里有超过预览宽度的图片 (${width}×${height}): ${name}`);
 }
 // 3. 本机有原图时，逐个比对内容，确认没有任何一张被原样复制进 dist
 const originals = (await walk(ORIGINALS)).filter((file) => IMAGE.test(file));

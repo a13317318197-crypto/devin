@@ -100,7 +100,7 @@ Cloudflare 上没有你的原图，所以线上显示的就是仓库里提交的
 
 - `originals/` 在 `.gitignore` 里，不会被提交，Cloudflare 也就拿不到；
 - Astro 只会把 `public/` 和 `src/` 里用到的东西放进 `dist/`，`originals/` 不在其中；
-- 每次 `npm run build` 结束后自动运行 `scripts/audit-dist.mjs`：`dist/` 里出现 `originals` 目录、PNG 等非预览格式、长边超过 1280px 的图片、与本机任一原图内容相同的文件，或 `originals/` 被 git 跟踪，**构建直接失败**，不会发布。
+- 每次 `npm run build` 结束后自动运行 `scripts/audit-dist.mjs`：`dist/` 里出现 `originals` 目录、PNG 等非预览格式、宽度超过 1280px 的图片、与本机任一原图内容相同的文件，或 `originals/` 被 git 跟踪，**构建直接失败**，不会发布。
 
 注意：水印预览是低分辨率、带水印的，但毕竟是公开图片；水印能拦住随手保存，拦不住有心人用工具去除。
 
