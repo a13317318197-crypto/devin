@@ -1,6 +1,6 @@
 # Moonlit Ink 月下墨
 
-原创和风水墨壁纸与头像的展示站。纯静态（Astro + Tailwind CSS + TypeScript），零后端、无数据库、无登录。
+原创和风水墨壁纸与头像的展示站。纯静态（Astro 7 + Tailwind CSS 4 + TypeScript），零后端、无数据库、无登录。
 付款和文件交付全部在 Gumroad 完成，站内的购买按钮只是跳转链接。
 
 ---
@@ -28,7 +28,7 @@
 
 ## 本地运行
 
-需要 Node.js 20.3 以上（推荐 22）。
+需要 Node.js 22.23.4 以上（Astro 7 的要求；仓库里的 `.node-version` 指定了 22）。
 
 ```bash
 npm install
