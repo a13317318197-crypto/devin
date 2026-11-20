@@ -20,15 +20,16 @@ import { absoluteUrl, pagePath } from '../lib/site';
     <script is:inline>
       (function () {
         var target = 'en';
+        var saved = null;
         try {
-          var saved = localStorage.getItem('lang');
-          var list = saved === 'en' || saved === 'zh' ? [saved] : navigator.languages || [navigator.language || 'en'];
-          for (var i = 0; i < list.length; i++) {
-            var code = String(list[i]).toLowerCase();
-            if (code.indexOf('zh') === 0) { target = 'zh'; break; }
-            if (code.indexOf('en') === 0) { target = 'en'; break; }
-          }
+          saved = localStorage.getItem('lang');
         } catch (error) {}
+        var list = saved === 'en' || saved === 'zh' ? [saved] : navigator.languages || [navigator.language || 'en'];
+        for (var i = 0; i < list.length; i++) {
+          var code = String(list[i]).toLowerCase();
+          if (code.indexOf('zh') === 0) { target = 'zh'; break; }
+          if (code.indexOf('en') === 0) { target = 'en'; break; }
+        }
         location.replace('/' + target + '/');
       })();
     </script>
