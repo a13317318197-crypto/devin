@@ -1,0 +1,21 @@
+---
+// 404 页：Cloudflare Pages 会自动用 dist/404.html。双语同时显示。
+import { notFoundPage } from '../content/site';
+import Base from '../layouts/Base.astro';
+import { HTML_LANG, LANGS, pagePath, t } from '../lib/site';
+---
+
+<Base lang="en" page="" title={t(notFoundPage.title, 'en')} description={t(notFoundPage.body, 'en')} noindex>
+  <div class="wrap max-w-3xl py-20 text-center md:py-28">
+    <p class="font-serif text-7xl text-seal">404</p>
+    {
+      LANGS.map((lang) => (
+        <div class="mt-10" lang={HTML_LANG[lang]}>
+          <h1 class="text-3xl md:text-4xl">{t(notFoundPage.heading, lang)}</h1>
+          <p class="lead mt-3">{t(notFoundPage.body, lang)}</p>
+          <a href={pagePath(lang)} class="btn btn-ghost mt-5">{t(notFoundPage.cta, lang)}</a>
+        </div>
+      ))
+    }
+  </div>
+</Base>

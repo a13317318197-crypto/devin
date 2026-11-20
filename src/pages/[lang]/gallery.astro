@@ -1,0 +1,70 @@
+---
+// 作品画廊：瀑布流 + 纯前端筛选（不需要后端），点击图片打开灯箱。
+import { galleryPage, ui, type PreviewCategory } from '../../content/site';
+import PlaceholderNotice from '../../components/PlaceholderNotice.astro';
+import PreviewButton from '../../components/PreviewButton.astro';
+import Base from '../../layouts/Base.astro';
+import { interleave, langStaticPaths, t, type Lang } from '../../lib/site';
+
+export const getStaticPaths = langStaticPaths;
+const lang = Astro.params.lang as Lang;
+const categories: PreviewCategory[] = ['phone', 'desktop', 'avatar'];
+const images = interleave(categories);
+const filters = ['all', ...categories] as const;
+---
+
+<Base lang={lang} page="gallery" title={t(galleryPage.title, lang)} description={t(galleryPage.description, lang)}>
+  <div class="wrap py-12 md:py-16">
+    <h1 class="h-page">{t(galleryPage.heading, lang)}</h1>
+    <p class="lead mt-4">{t(galleryPage.lead, lang)}</p>
+    <PlaceholderNotice lang={lang} class="mt-6" />
+
+    <div class="mt-8 flex flex-wrap items-center gap-2" role="group" aria-label={t(galleryPage.filterLabel, lang)} data-gallery-filters>
+      {
+        filters.map((filter) => (
+          <button
+            type="button"
+            data-filter={filter}
+            aria-pressed={filter === 'all' ? 'true' : 'false'}
+            class="min-h-11 rounded-full border border-line px-4 text-sm hover:border-ink aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-paper"
+          >
+            {t(ui.categories[filter], lang)}
+          </button>
+        ))
+      }
+    </div>
+    <p class="mt-3 text-sm text-ink-soft" aria-live="polite" data-gallery-count data-template={galleryPage.showing[lang]}>
+      {t(galleryPage.showing, lang, { count: images.length })}
+    </p>
+
+    <ul class="mt-6 columns-2 gap-3 md:columns-3 lg:columns-4" data-lightbox-group data-gallery>
+      {images.map((preview, index) => <li class="mat mb-3 break-inside-avoid p-1.5" data-category={preview.category}><PreviewButton preview={preview} lang={lang} eager={index === 0} /></li>)}
+    </ul>
+  </div>
+</Base>
+
+<script>
+  const filters = document.querySelector<HTMLElement>('[data-gallery-filters]');
+  const gallery = document.querySelector<HTMLElement>('[data-gallery]');
+  const count = document.querySelector<HTMLElement>('[data-gallery-count]');
+  if (filters && gallery) {
+    const buttons = [...filters.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+    const items = [...gallery.querySelectorAll<HTMLElement>('li[data-category]')];
+    const apply = (filter: string) => {
+      let visible = 0;
+      for (const item of items) {
+        item.hidden = filter !== 'all' && item.dataset.category !== filter;
+        if (!item.hidden) visible += 1;
+      }
+      for (const button of buttons) button.setAttribute('aria-pressed', String(button.dataset.filter === filter));
+      if (count) count.textContent = (count.dataset.template ?? '').replace('{count}', String(visible));
+    };
+    filters.addEventListener('click', (event) => {
+      const button = (event.target as Element).closest<HTMLButtonElement>('[data-filter]');
+      if (button) apply(button.dataset.filter ?? 'all');
+    });
+    // 支持从别的页面带筛选进来：/gallery/?type=phone
+    const initial = new URLSearchParams(location.search).get('type');
+    if (initial && buttons.some((button) => button.dataset.filter === initial)) apply(initial);
+  }
+</script>

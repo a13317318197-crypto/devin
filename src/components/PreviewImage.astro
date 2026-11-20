@@ -1,0 +1,26 @@
+---
+// 一张水印预览图：小屏用缩略图，大屏用完整预览。
+import { altFor, type Lang, type Preview } from '../lib/site';
+
+interface Props {
+  preview: Preview;
+  lang: Lang;
+  sizes?: string;
+  eager?: boolean;
+  class?: string;
+}
+const { preview, lang, sizes = '(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw', eager = false, class: className } = Astro.props;
+---
+
+<img
+  src={preview.thumb}
+  srcset={`${preview.thumb} ${preview.thumbWidth}w, ${preview.src} ${preview.width}w`}
+  sizes={sizes}
+  width={preview.width}
+  height={preview.height}
+  alt={altFor(preview, lang)}
+  loading={eager ? 'eager' : 'lazy'}
+  fetchpriority={eager ? 'high' : undefined}
+  decoding="async"
+  class={className}
+/>

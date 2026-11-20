@@ -1,0 +1,145 @@
+{
+  "note": "由 scripts/make-previews.mjs 自动生成，请勿手改。",
+  "images": [
+    {
+      "id": "phone-01",
+      "category": "phone",
+      "src": "/previews/phone/phone-01.webp",
+      "thumb": "/previews/phone/sm/phone-01.webp",
+      "width": 720,
+      "height": 1280,
+      "thumbWidth": 360,
+      "placeholder": true
+    },
+    {
+      "id": "phone-02",
+      "category": "phone",
+      "src": "/previews/phone/phone-02.webp",
+      "thumb": "/previews/phone/sm/phone-02.webp",
+      "width": 720,
+      "height": 1280,
+      "thumbWidth": 360,
+      "placeholder": true
+    },
+    {
+      "id": "phone-03",
+      "category": "phone",
+      "src": "/previews/phone/phone-03.webp",
+      "thumb": "/previews/phone/sm/phone-03.webp",
+      "width": 720,
+      "height": 1280,
+      "thumbWidth": 360,
+      "placeholder": true
+    },
+    {
+      "id": "phone-04",
+      "category": "phone",
+      "src": "/previews/phone/phone-04.webp",
+      "thumb": "/previews/phone/sm/phone-04.webp",
+      "width": 720,
+      "height": 1280,
+      "thumbWidth": 360,
+      "placeholder": true
+    },
+    {
+      "id": "phone-05",
+      "category": "phone",
+      "src": "/previews/phone/phone-05.webp",
+      "thumb": "/previews/phone/sm/phone-05.webp",
+      "width": 720,
+      "height": 1280,
+      "thumbWidth": 360,
+      "placeholder": true
+    },
+    {
+      "id": "phone-06",
+      "category": "phone",
+      "src": "/previews/phone/phone-06.webp",
+      "thumb": "/previews/phone/sm/phone-06.webp",
+      "width": 720,
+      "height": 1280,
+      "thumbWidth": 360,
+      "placeholder": true
+    },
+    {
+      "id": "desktop-01",
+      "category": "desktop",
+      "src": "/previews/desktop/desktop-01.webp",
+      "thumb": "/previews/desktop/sm/desktop-01.webp",
+      "width": 1280,
+      "height": 720,
+      "thumbWidth": 640,
+      "placeholder": true
+    },
+    {
+      "id": "desktop-02",
+      "category": "desktop",
+      "src": "/previews/desktop/desktop-02.webp",
+      "thumb": "/previews/desktop/sm/desktop-02.webp",
+      "width": 1280,
+      "height": 720,
+      "thumbWidth": 640,
+      "placeholder": true
+    },
+    {
+      "id": "desktop-03",
+      "category": "desktop",
+      "src": "/previews/desktop/desktop-03.webp",
+      "thumb": "/previews/desktop/sm/desktop-03.webp",
+      "width": 1280,
+      "height": 720,
+      "thumbWidth": 640,
+      "placeholder": true
+    },
+    {
+      "id": "desktop-04",
+      "category": "desktop",
+      "src": "/previews/desktop/desktop-04.webp",
+      "thumb": "/previews/desktop/sm/desktop-04.webp",
+      "width": 1280,
+      "height": 720,
+      "thumbWidth": 640,
+      "placeholder": true
+    },
+    {
+      "id": "avatar-01",
+      "category": "avatar",
+      "src": "/previews/avatar/avatar-01.webp",
+      "thumb": "/previews/avatar/sm/avatar-01.webp",
+      "width": 640,
+      "height": 640,
+      "thumbWidth": 320,
+      "placeholder": true
+    },
+    {
+      "id": "avatar-02",
+      "category": "avatar",
+      "src": "/previews/avatar/avatar-02.webp",
+      "thumb": "/previews/avatar/sm/avatar-02.webp",
+      "width": 640,
+      "height": 640,
+      "thumbWidth": 320,
+      "placeholder": true
+    },
+    {
+      "id": "avatar-03",
+      "category": "avatar",
+      "src": "/previews/avatar/avatar-03.webp",
+      "thumb": "/previews/avatar/sm/avatar-03.webp",
+      "width": 640,
+      "height": 640,
+      "thumbWidth": 320,
+      "placeholder": true
+    },
+    {
+      "id": "avatar-04",
+      "category": "avatar",
+      "src": "/previews/avatar/avatar-04.webp",
+      "thumb": "/previews/avatar/sm/avatar-04.webp",
+      "width": 640,
+      "height": 640,
+      "thumbWidth": 320,
+      "placeholder": true
+    }
+  ]
+}

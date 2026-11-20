@@ -1,0 +1,13 @@
+---
+// 还在用示意占位图时自动显示；放入原图并运行 npm run previews 后自动消失。
+import { ui } from '../content/site';
+import { hasPlaceholders, t, type Lang } from '../lib/site';
+
+interface Props {
+  lang: Lang;
+  class?: string;
+}
+const { lang, class: className } = Astro.props;
+---
+
+<p class:list={['notice', className]}>{t(hasPlaceholders ? ui.placeholderNotice : ui.watermarkNotice, lang)}</p>

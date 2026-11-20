@@ -1,0 +1,16 @@
+---
+// AI 披露小字：页脚（每一页，含首页底部）和每个商品页都会出现。
+import { ui } from '../content/site';
+import { pagePath, t, type Lang } from '../lib/site';
+
+interface Props {
+  lang: Lang;
+  class?: string;
+}
+const { lang, class: className } = Astro.props;
+---
+
+<p class:list={['text-sm text-ink-soft', className]}>
+  {t(ui.aiLine, lang)}
+  <a class="link" href={pagePath(lang, 'ai-disclosure')}>{t(ui.aiLineLink, lang)}</a>
+</p>

@@ -1,0 +1,46 @@
+---
+// 根路径 /：按浏览器语言跳转一次到 /en/ 或 /zh/。
+// 访客之前在页眉手动切换过语言的话，优先用那次的选择（存在浏览器本地，不是 cookie）。
+// 没有 JavaScript 时显示两个语言入口。
+import '../styles/global.css';
+import { home, site } from '../content/site';
+import { absoluteUrl, pagePath } from '../lib/site';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{home.title.en}</title>
+    <meta name="description" content={home.description.en} />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={absoluteUrl(pagePath('en'))} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      (function () {
+        var target = 'en';
+        var saved = null;
+        try {
+          saved = localStorage.getItem('lang');
+        } catch (error) {}
+        var list = saved === 'en' || saved === 'zh' ? [saved] : navigator.languages || [navigator.language || 'en'];
+        for (var i = 0; i < list.length; i++) {
+          var code = String(list[i]).toLowerCase();
+          if (code.indexOf('zh') === 0) { target = 'zh'; break; }
+          if (code.indexOf('en') === 0) { target = 'en'; break; }
+        }
+        location.replace('/' + target + '/');
+      })();
+    </script>
+  </head>
+  <body class="flex min-h-dvh items-center justify-center">
+    <main class="wrap max-w-md py-16 text-center">
+      <h1 class="text-4xl">{site.brand.en} <span lang="zh-Hans">{site.brand.zh}</span></h1>
+      <div class="mt-8 flex flex-col gap-3">
+        <a href={pagePath('en')} class="btn btn-ghost" lang="en">English</a>
+        <a href={pagePath('zh')} class="btn btn-ghost" lang="zh-Hans">中文</a>
+      </div>
+    </main>
+  </body>
+</html>
