@@ -1,0 +1,32 @@
+{
+  "name": "moonlit-ink",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.3.0"
+  },
+  "scripts": {
+    "previews": "node scripts/make-previews.mjs",
+    "predev": "npm run previews",
+    "dev": "astro dev",
+    "prebuild": "npm run previews",
+    "build": "astro build",
+    "postbuild": "node scripts/audit-dist.mjs",
+    "preview": "astro preview",
+    "check": "astro check",
+    "check:links": "node scripts/check-links.mjs",
+    "test": "node --test scripts/*.test.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.0",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "cheerio": "^1.1.2",
+    "typescript": "^5.9.3"
+  }
+}

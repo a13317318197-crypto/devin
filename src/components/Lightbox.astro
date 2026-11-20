@@ -1,0 +1,102 @@
+---
+// 灯箱：原生 <dialog>。Esc 关闭、← → 切换、打开时页面其余部分不可聚焦、关闭后焦点回到原图。
+// 显示所属素材包和购买按钮（跳转 Gumroad）。
+import { ui } from '../content/site';
+import { t, type Lang } from '../lib/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const blank = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+---
+
+<dialog id="lightbox" class="lightbox" aria-label={t(ui.lightbox.label, lang)}>
+  <div class="flex items-center justify-between gap-3 px-3 py-2">
+    <p class="text-sm tabular-nums" data-lb-count aria-live="polite"></p>
+    <button type="button" class="icon-btn" data-lb-close aria-label={t(ui.lightbox.close, lang)}>
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="relative flex min-h-0 flex-1 items-center justify-center px-3">
+    <img data-lb-img src={blank} alt="" width="1" height="1" class="max-h-full w-auto max-w-full object-contain" />
+    <button type="button" class="icon-btn absolute top-1/2 left-2 -translate-y-1/2" data-lb-prev aria-label={t(ui.lightbox.previous, lang)}>
+      <span aria-hidden="true">‹</span>
+    </button>
+    <button type="button" class="icon-btn absolute top-1/2 right-2 -translate-y-1/2" data-lb-next aria-label={t(ui.lightbox.next, lang)}>
+      <span aria-hidden="true">›</span>
+    </button>
+  </div>
+  <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-4 md:px-8">
+    <p class="text-sm">
+      <span class="text-paper/70">{t(ui.lightbox.partOf, lang)}</span>
+      <a data-lb-details href="#" class="ml-1 font-serif text-lg underline underline-offset-4"></a>
+      <span data-lb-price class="ml-2 font-serif text-lg"></span>
+    </p>
+    <a data-lb-buy href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary w-full sm:w-auto">
+      {t(ui.buy, lang)}<span aria-hidden="true">↗</span><span class="sr-only">{t(ui.newTab, lang)}</span>
+    </a>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('#lightbox');
+  if (dialog) {
+    const img = dialog.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const count = dialog.querySelector<HTMLElement>('[data-lb-count]')!;
+    const details = dialog.querySelector<HTMLAnchorElement>('[data-lb-details]')!;
+    const price = dialog.querySelector<HTMLElement>('[data-lb-price]')!;
+    const buy = dialog.querySelector<HTMLAnchorElement>('[data-lb-buy]')!;
+    const prev = dialog.querySelector<HTMLButtonElement>('[data-lb-prev]')!;
+    const next = dialog.querySelector<HTMLButtonElement>('[data-lb-next]')!;
+    let items: HTMLElement[] = [];
+    let index = 0;
+    let opener: HTMLElement | null = null;
+
+    const show = (target: number) => {
+      index = (target + items.length) % items.length;
+      const data = items[index].dataset;
+      img.src = data.full ?? '';
+      img.alt = data.alt ?? '';
+      img.width = Number(data.w);
+      img.height = Number(data.h);
+      details.textContent = data.pack ?? '';
+      details.href = data.details ?? '#';
+      price.textContent = data.price ?? '';
+      buy.href = data.buy ?? '#';
+      count.textContent = `${index + 1} / ${items.length}`;
+      prev.hidden = next.hidden = items.length < 2;
+    };
+
+    document.addEventListener('click', (event) => {
+      const trigger = (event.target as Element).closest<HTMLElement>('[data-lightbox]');
+      if (!trigger) return;
+      // 同一组（轮播、画廊）里当前可见的图片可以用 ← → 连续翻看
+      const group = trigger.closest('[data-lightbox-group]') ?? document;
+      items = [...group.querySelectorAll<HTMLElement>('[data-lightbox]')].filter((item) => !item.closest('[hidden]'));
+      opener = trigger;
+      show(Math.max(0, items.indexOf(trigger)));
+      dialog.showModal();
+    });
+
+    prev.addEventListener('click', () => show(index - 1));
+    next.addEventListener('click', () => show(index + 1));
+    dialog.querySelector('[data-lb-close]')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') show(index - 1);
+      if (event.key === 'ArrowRight') show(index + 1);
+    });
+    dialog.addEventListener('close', () => opener?.focus());
+
+    // 手机上左右滑动切换
+    let startX = 0;
+    dialog.addEventListener('touchstart', (event) => (startX = event.changedTouches[0].clientX), { passive: true });
+    dialog.addEventListener('touchend', (event) => {
+      const delta = event.changedTouches[0].clientX - startX;
+      if (Math.abs(delta) > 48 && items.length > 1) show(index + (delta < 0 ? 1 : -1));
+    }, { passive: true });
+  }
+</script>

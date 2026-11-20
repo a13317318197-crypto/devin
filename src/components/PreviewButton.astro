@@ -1,0 +1,36 @@
+---
+// 可点击放大的预览图。点击后由 Lightbox.astro 打开灯箱，并显示所属素材包与购买按钮。
+import { ui } from '../content/site';
+import { altFor, formatPrice, packOf, pagePath, productPage, t, type Lang, type Preview } from '../lib/site';
+import PreviewImage from './PreviewImage.astro';
+
+interface Props {
+  preview: Preview;
+  lang: Lang;
+  sizes?: string;
+  eager?: boolean;
+  class?: string;
+  imgClass?: string;
+}
+const { preview, lang, sizes, eager, class: className, imgClass } = Astro.props;
+const pack = packOf(preview);
+const alt = altFor(preview, lang);
+---
+
+<button
+  type="button"
+  class:list={['preview-btn', className]}
+  aria-label={`${t(ui.lightbox.open, lang)}: ${alt}`}
+  data-lightbox
+  data-category={preview.category}
+  data-full={preview.src}
+  data-w={preview.width}
+  data-h={preview.height}
+  data-alt={alt}
+  data-pack={t(pack.name, lang)}
+  data-price={formatPrice(pack.price, lang)}
+  data-buy={pack.gumroadUrl}
+  data-details={pagePath(lang, productPage(pack))}
+>
+  <PreviewImage preview={preview} lang={lang} sizes={sizes} eager={eager} class={imgClass} />
+</button>

@@ -1,0 +1,137 @@
+---
+// 首页
+import { home, products, site } from '../../content/site';
+import PlaceholderNotice from '../../components/PlaceholderNotice.astro';
+import PreviewButton from '../../components/PreviewButton.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import Base from '../../layouts/Base.astro';
+import { absoluteUrl, interleave, langStaticPaths, pagePath, previewsOf, t, type Lang } from '../../lib/site';
+
+export const getStaticPaths = langStaticPaths;
+const lang = Astro.params.lang as Lang;
+const heroPhone = previewsOf('phone')[0];
+const heroDesktop = previewsOf('desktop')[0];
+const picks = interleave(['desktop', 'phone', 'avatar']).slice(0, 8);
+const bundle = products[products.length - 1];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: `${site.brand.en} ${site.brand.zh}`,
+  url: absoluteUrl(pagePath(lang)),
+  inLanguage: lang === 'zh' ? 'zh-Hans' : 'en',
+};
+---
+
+<Base lang={lang} page="" title={t(home.title, lang)} description={t(home.description, lang)} jsonLd={jsonLd}>
+  <section class="wrap grid items-center gap-10 py-12 md:grid-cols-[1.1fr_0.9fr] md:gap-14 md:py-20">
+    <div>
+      <p class="eyebrow">{t(home.hero.eyebrow, lang)}</p>
+      <h1 class="mt-4 text-[2.5rem] leading-[1.12] md:text-6xl">{t(home.hero.headline, lang)}</h1>
+      <p class="lead mt-5 max-w-xl">{t(home.hero.lead, lang)}</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="#packs" class="btn btn-primary">{t(home.hero.primary, lang)}</a>
+        <a href={pagePath(lang, 'free-sample')} class="btn btn-ghost">{t(home.hero.secondary, lang)}</a>
+      </div>
+    </div>
+    <div class="relative mx-auto w-full max-w-md pt-6 pr-6 pb-10 md:max-w-none" data-lightbox-group>
+      {
+        heroDesktop && (
+          <PreviewButton
+            preview={heroDesktop}
+            lang={lang}
+            sizes="(min-width: 768px) 36vw, 80vw"
+            class="mat ml-auto w-[88%] p-2 shadow-[0_18px_40px_-20px_rgb(36_38_32/0.5)]"
+          />
+        )
+      }
+      {
+        heroPhone && (
+          <PreviewButton
+            preview={heroPhone}
+            lang={lang}
+            eager
+            sizes="(min-width: 768px) 16vw, 40vw"
+            class="mat absolute bottom-0 left-0 w-[42%] p-1.5 shadow-[0_18px_40px_-16px_rgb(36_38_32/0.6)]"
+          />
+        )
+      }
+      <p class="absolute top-0 right-0 font-serif text-lg tracking-[0.4em] text-ink-soft [writing-mode:vertical-rl]" lang="zh-Hans" aria-hidden="true">
+        {site.brand.zh}
+      </p>
+      <span class="absolute right-0 bottom-3 size-5 rounded-[3px] bg-seal" aria-hidden="true"></span>
+    </div>
+  </section>
+
+  <section id="packs" class="section">
+    <div class="wrap">
+      <p class="eyebrow">{t(home.packs.eyebrow, lang)}</p>
+      <h2 class="h-section">{t(home.packs.heading, lang)}</h2>
+      <p class="lead mt-3">{t(home.packs.lead, lang)}</p>
+      <div class="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {products.map((product) => <ProductCard product={product} lang={lang} badge={product === bundle ? t(home.packs.bundleBadge, lang) : undefined} />)}
+      </div>
+      <PlaceholderNotice lang={lang} class="mt-8" />
+    </div>
+  </section>
+
+  <section class="section bg-mat">
+    <div class="wrap grid items-center gap-8 md:grid-cols-[1fr_auto]">
+      <div>
+        <p class="eyebrow">{t(home.sample.eyebrow, lang)}</p>
+        <h2 class="h-section">{t(home.sample.heading, lang)}</h2>
+        <p class="lead mt-3 max-w-2xl">{t(home.sample.body, lang)}</p>
+      </div>
+      <a href={pagePath(lang, 'free-sample')} class="btn btn-ghost bg-paper">
+        {t(home.sample.cta, lang)}<span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">{t(home.gallery.eyebrow, lang)}</p>
+      <h2 class="h-section">{t(home.gallery.heading, lang)}</h2>
+      <ul class="mt-9 columns-2 gap-3 md:columns-3 lg:columns-4" data-lightbox-group>
+        {picks.map((preview) => <li class="mat mb-3 break-inside-avoid p-1.5"><PreviewButton preview={preview} lang={lang} /></li>)}
+      </ul>
+      <a href={pagePath(lang, 'gallery')} class="btn btn-ghost mt-6">
+        {t(home.gallery.cta, lang)}<span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid gap-6 md:grid-cols-[0.8fr_1.2fr] md:gap-14">
+      <div>
+        <p class="eyebrow">{t(home.ai.eyebrow, lang)}</p>
+        <h2 class="h-section">{t(home.ai.heading, lang)}</h2>
+      </div>
+      <div>
+        <p class="text-lg">{t(home.ai.body, lang)}</p>
+        <a href={pagePath(lang, 'ai-disclosure')} class="link mt-4 inline-block">{t(home.ai.cta, lang)}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid gap-6 md:grid-cols-[0.8fr_1.2fr] md:gap-14">
+      <div>
+        <p class="eyebrow">{t(home.faq.eyebrow, lang)}</p>
+        <h2 class="h-section">{t(home.faq.heading, lang)}</h2>
+      </div>
+      <div class="border-t border-line">
+        {
+          home.faq.items.map((item) => (
+            <details class="group border-b border-line">
+              <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 font-serif text-xl [&::-webkit-details-marker]:hidden">
+                {t(item.q, lang)}
+                <span class="text-seal transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <p class="pb-5 text-ink-soft">{t(item.a, lang)}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>

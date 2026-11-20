@@ -1,0 +1,140 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-paper: #f7f4ec;
+  --color-mat: #ece6d8;
+  --color-ink: #242620;
+  --color-ink-soft: #565a50;
+  --color-line: #d8d2c2;
+  --color-seal: #a13f32;
+  --color-seal-deep: #86322a;
+  --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', STSong, SimSun, Georgia, serif;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 1.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-seal);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    * {
+      transition: none !important;
+      animation: none !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-6xl px-5 md:px-8;
+  }
+  .section {
+    @apply border-t border-line py-14 md:py-20;
+  }
+  .eyebrow {
+    @apply text-xs font-medium tracking-[0.18em] text-ink-soft uppercase;
+  }
+  .h-page {
+    @apply text-4xl md:text-5xl;
+  }
+  .h-section {
+    @apply mt-3 text-3xl md:text-4xl;
+  }
+  .lead {
+    @apply text-lg text-ink-soft;
+  }
+  .link {
+    @apply underline decoration-seal/60 underline-offset-4 hover:text-seal hover:decoration-seal;
+  }
+  .btn {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-sm border border-ink px-6 py-2.5 text-center text-base font-medium no-underline transition-colors;
+  }
+  .btn-primary {
+    @apply border-seal bg-seal text-white hover:border-seal-deep hover:bg-seal-deep;
+  }
+  .btn-ghost {
+    @apply hover:bg-ink hover:text-paper;
+  }
+  .icon-btn {
+    @apply inline-flex size-11 items-center justify-center rounded-full border border-line bg-paper text-xl leading-none text-ink hover:border-ink;
+  }
+  /* 作品放在「卡纸」上：不裁切，完整显示 */
+  .mat {
+    @apply bg-mat;
+  }
+  .preview-btn {
+    @apply block w-full cursor-zoom-in;
+  }
+  .preview-btn img {
+    @apply h-auto w-full;
+  }
+  .notice {
+    @apply border-l-2 border-seal bg-mat px-4 py-3 text-sm text-ink-soft;
+  }
+  .doc h2 {
+    @apply mt-10 mb-3 text-2xl;
+  }
+  .doc p {
+    @apply mb-4;
+  }
+  .doc ul {
+    @apply mb-4 list-disc space-y-2 pl-5 marker:text-seal;
+  }
+  .doc a {
+    @apply underline decoration-seal/60 underline-offset-4 hover:text-seal hover:decoration-seal;
+  }
+
+  /* 轮播：原生横向滚动 + scroll-snap */
+  .carousel-track {
+    @apply flex snap-x snap-mandatory overflow-x-auto;
+    scrollbar-width: none;
+  }
+  .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+  .carousel-track > li {
+    @apply flex w-full shrink-0 snap-center items-center justify-center;
+  }
+
+  /* 灯箱 */
+  .lightbox {
+    @apply m-0 h-dvh max-h-none w-screen max-w-none bg-ink p-0 text-paper;
+  }
+  .lightbox::backdrop {
+    background: rgb(20 22 18 / 0.9);
+  }
+  .lightbox[open] {
+    @apply flex flex-col;
+  }
+  .lightbox .icon-btn {
+    @apply border-paper/40 bg-ink/70 text-paper hover:border-paper;
+  }
+}
