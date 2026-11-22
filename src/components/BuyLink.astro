@@ -1,0 +1,17 @@
+---
+// 跳转 Gumroad 的购买按钮：新标签页打开，rel="noopener noreferrer"。本站不处理任何付款。
+import { ui } from '../content/site';
+import { t, type Lang } from '../lib/site';
+
+interface Props {
+  href: string;
+  lang: Lang;
+  label?: string;
+  class?: string;
+}
+const { href, lang, label = t(ui.buy, lang), class: className } = Astro.props;
+---
+
+<a href={href} target="_blank" rel="noopener noreferrer" class:list={['btn btn-primary', className]}>
+  {label}<span aria-hidden="true">↗</span><span class="sr-only">{t(ui.newTab, lang)}</span>
+</a>

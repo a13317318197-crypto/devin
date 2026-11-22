@@ -1,0 +1,71 @@
+---
+// 预览轮播：原生横向滚动，可滑动、可用按钮切换，点击图片打开灯箱。
+import { ui } from '../content/site';
+import { t, type Lang, type Preview } from '../lib/site';
+import PreviewButton from './PreviewButton.astro';
+
+interface Props {
+  images: Preview[];
+  lang: Lang;
+  label: string;
+  sizes?: string;
+  eager?: boolean;
+  /** 画框比例，例如 'aspect-[4/5]' */
+  frame?: string;
+}
+const { images, lang, label, sizes, eager = false, frame = 'aspect-[4/5]' } = Astro.props;
+---
+
+<div class="mat flex min-w-0 flex-col" data-carousel data-lightbox-group>
+  <ul class:list={['carousel-track', frame]} aria-label={`${t(ui.carousel.label, lang)}: ${label}`}>
+    {
+      images.map((preview, index) => (
+        <li class:list={['h-full px-6 pt-6', images.length > 1 ? 'pb-1' : 'pb-6']}>
+          <PreviewButton
+            preview={preview}
+            lang={lang}
+            sizes={sizes}
+            eager={eager && index === 0}
+            class="flex h-full items-center justify-center"
+            imgClass="frame-shadow max-h-full w-auto! max-w-full"
+          />
+        </li>
+      ))
+    }
+  </ul>
+  {
+    images.length > 1 && (
+      <div class="flex items-center justify-between px-1.5 text-ink-soft">
+        <button type="button" class="carousel-btn" data-carousel-prev aria-label={t(ui.carousel.previous, lang)}>
+          <svg viewBox="0 0 20 20" class="size-4" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M12.5 4.5 7 10l5.5 5.5" /></svg>
+        </button>
+        <span class="text-[0.7rem] tracking-[0.2em] tabular-nums" data-carousel-count aria-hidden="true">
+          1 / {images.length}
+        </span>
+        <button type="button" class="carousel-btn" data-carousel-next aria-label={t(ui.carousel.next, lang)}>
+          <svg viewBox="0 0 20 20" class="size-4" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M7.5 4.5 13 10l-5.5 5.5" /></svg>
+        </button>
+      </div>
+    )
+  }
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('[data-carousel]')) {
+    const track = root.querySelector<HTMLElement>('.carousel-track');
+    const count = root.querySelector<HTMLElement>('[data-carousel-count]');
+    if (!track) continue;
+    const total = track.children.length;
+    const current = () => Math.round(track.scrollLeft / track.clientWidth);
+    const go = (step: number) => {
+      const next = (current() + step + total) % total;
+      const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      track.scrollTo({ left: next * track.clientWidth, behavior: smooth ? 'smooth' : 'auto' });
+    };
+    root.querySelector('[data-carousel-prev]')?.addEventListener('click', () => go(-1));
+    root.querySelector('[data-carousel-next]')?.addEventListener('click', () => go(1));
+    track.addEventListener('scroll', () => {
+      if (count) count.textContent = `${current() + 1} / ${total}`;
+    }, { passive: true });
+  }
+</script>

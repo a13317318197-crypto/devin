@@ -1,0 +1,38 @@
+---
+// 条款类页面：授权说明、AI 披露、隐私政策、使用条款、退款说明。文字全部来自 site.ts 的 docs。
+import { docs, site, ui, type Doc } from '../../content/site';
+import Base from '../../layouts/Base.astro';
+import { LANGS, t, type Lang } from '../../lib/site';
+
+export const getStaticPaths = () => LANGS.flatMap((lang) => docs.map((doc) => ({ params: { lang, doc: doc.slug }, props: { doc } })));
+const lang = Astro.params.lang as Lang;
+const { doc } = Astro.props as { doc: Doc };
+// 把 {email} 换成可点击的邮箱链接
+const withEmail = (text: string) => text.split('{email}');
+---
+
+<Base lang={lang} page={doc.slug} title={t(doc.title, lang)} description={t(doc.description, lang)}>
+  <article class="wrap doc max-w-3xl py-12 md:py-16">
+    <h1 class="h-page">{t(doc.heading, lang)}</h1>
+    <p class="lead mt-5">{t(doc.intro, lang)}</p>
+    {
+      doc.sections.map((section) => (
+        <section>
+          <h2>{t(section.heading, lang)}</h2>
+          {section.paragraphs?.map((paragraph) => (
+            <p>
+              {withEmail(t(paragraph, lang)).map((part, index) => (
+                <>
+                  {index > 0 && <a href={`mailto:${site.email}`}>{site.email}</a>}
+                  {part}
+                </>
+              ))}
+            </p>
+          ))}
+          {section.list && <ul>{section.list.map((item) => <li>{t(item, lang)}</li>)}</ul>}
+        </section>
+      ))
+    }
+    {doc.templateNote && <p class="mt-12 border-t border-line pt-5 text-sm text-ink-soft">{t(ui.templateNote, lang)}</p>}
+  </article>
+</Base>

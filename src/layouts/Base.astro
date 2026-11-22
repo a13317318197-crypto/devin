@@ -1,0 +1,187 @@
+---
+// 所有页面共用的外壳：<head>（SEO、分享图、hreflang）、页眉、页脚、灯箱。
+import '../styles/global.css';
+import { docs, products, sample, site, ui } from '../content/site';
+import AiLine from '../components/AiLine.astro';
+import Lightbox from '../components/Lightbox.astro';
+import Seal from '../components/Seal.astro';
+import { absoluteUrl, HTML_LANG, LANGS, otherLang, pagePath, productPage, shareImage, t, type Lang } from '../lib/site';
+
+interface Props {
+  lang: Lang;
+  /** 页面在语言目录下的路径，例如 'gallery'；首页为 '' */
+  page: string;
+  title: string;
+  description: string;
+  /** 分享图路径（public/ 下），默认用电脑壁纸的分享图 */
+  image?: string;
+  /** 结构化数据（JSON-LD） */
+  jsonLd?: Record<string, unknown>;
+  /** 404 等不希望被收录、也没有双语对应页的页面 */
+  noindex?: boolean;
+}
+const { lang, page, title, description, image = shareImage(), jsonLd, noindex = false } = Astro.props;
+const other = otherLang(lang);
+const canonical = absoluteUrl(pagePath(lang, page));
+const analyticsToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
+// JSON-LD 里转义 <，避免内容里出现 </script> 时破坏页面
+const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : '';
+const navItems = [
+  { href: pagePath(lang) + '#packs', label: t(ui.nav.packs, lang) },
+  { href: pagePath(lang, 'gallery'), label: t(ui.nav.gallery, lang) },
+  { href: pagePath(lang, 'free-sample'), label: t(ui.nav.sample, lang) },
+  { href: pagePath(lang, 'about'), label: t(ui.nav.about, lang) },
+];
+const socials = site.social.filter((item) => item.url);
+---
+
+<!doctype html>
+<html lang={HTML_LANG[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f4ec" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex" />
+      ) : (
+        <>
+          <link rel="canonical" href={canonical} />
+          {LANGS.map((code) => <link rel="alternate" hreflang={code} href={absoluteUrl(pagePath(code, page))} />)}
+          <link rel="alternate" hreflang="x-default" href={absoluteUrl(pagePath('en', page))} />
+        </>
+      )
+    }
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={`${site.brand.en} ${site.brand.zh}`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={absoluteUrl(image)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === 'zh' ? 'zh_CN' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {jsonLd && <script type="application/ld+json" is:inline set:html={jsonLdText} />}
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-paper focus:px-4 focus:py-2">
+      {t(ui.skipToContent, lang)}
+    </a>
+
+    <header class="border-b border-line">
+      <div class="wrap grid grid-cols-[1fr_auto] items-center gap-x-3 md:grid-cols-[auto_1fr_auto] md:gap-x-6 md:py-2">
+        <a href={pagePath(lang)} class="flex items-center gap-3 pt-3.5 pb-1 max-[359px]:gap-2 md:py-3.5">
+          <svg viewBox="0 0 32 32" class="size-7 shrink-0" aria-hidden="true">
+            <circle cx="16" cy="16" r="14" fill="#1d1f1a"></circle>
+            <circle cx="20.5" cy="12" r="10.5" fill="#f7f4ec"></circle>
+          </svg>
+          <span class="font-serif text-[1.3rem] leading-none tracking-[0.01em] whitespace-nowrap max-[359px]:text-[1.15rem]">
+            {site.brand.en}<span class="ml-2.5 text-[0.95rem] tracking-[0.12em] text-ink-soft max-[359px]:ml-1.5 max-[359px]:text-[0.85rem]" lang="zh-Hans">{site.brand.zh}</span>
+          </span>
+          <span class="sr-only">· {t(ui.home, lang)}</span>
+        </a>
+        <nav aria-label={t(ui.nav.label, lang)} class="col-span-2 row-start-2 md:col-span-1 md:col-start-2 md:row-start-1 md:justify-self-center">
+          <ul
+            class:list={[
+              'flex justify-between gap-x-4 tracking-[0.12em] whitespace-nowrap text-ink-soft uppercase md:justify-start md:gap-x-7 md:tracking-[0.14em] lg:gap-x-10',
+              // 汉字在小字号下更难认，中文导航用大一号
+              lang === 'zh' ? 'text-[0.875rem]' : 'text-[0.74rem] max-[359px]:gap-x-2 max-[359px]:tracking-[0.05em] md:text-[0.8rem]',
+            ]}
+          >
+            {navItems.map((item) => <li><a href={item.href} class="block py-3 transition-colors hover:text-ink">{item.label}</a></li>)}
+          </ul>
+        </nav>
+        <a
+          href={pagePath(other, page)}
+          hreflang={HTML_LANG[other]}
+          lang={HTML_LANG[other]}
+          data-set-lang={other}
+          aria-label={t(ui.switchLanguageLabel, lang)}
+          class="col-start-2 row-start-1 inline-flex min-h-11 items-center gap-2 text-sm whitespace-nowrap text-ink-soft transition-colors hover:text-ink md:col-start-3"
+        >
+          <svg viewBox="0 0 20 20" class="size-4" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+            <circle cx="10" cy="10" r="7.4"></circle>
+            <path d="M2.6 10h14.8M10 2.6c2.2 2.1 3.3 4.6 3.3 7.4s-1.1 5.3-3.3 7.4c-2.2-2.1-3.3-4.6-3.3-7.4S7.8 4.7 10 2.6z"></path>
+          </svg>
+          {t(ui.switchLanguage, lang)}
+        </a>
+      </div>
+    </header>
+
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="bg-ink text-paper">
+      <div class="wrap grid grid-cols-[1.3fr_1fr] gap-x-6 gap-y-9 py-12 md:grid-cols-3 md:gap-10 md:py-16 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:py-20">
+        <div class="col-span-2 md:col-span-3 lg:col-span-1">
+          <div class="flex items-center gap-4">
+            <Seal />
+            <p class="font-serif text-2xl leading-tight">
+              {site.brand.en}<span class="mt-1 block text-base tracking-[0.2em] text-paper/75" lang="zh-Hans">{site.brand.zh}</span>
+            </p>
+          </div>
+          <p class="mt-5 max-w-xs text-sm text-paper/75">{t(ui.footer.tagline, lang)}</p>
+        </div>
+        <nav aria-label={t(ui.footer.shop, lang)}>
+          <h2 class="eyebrow font-sans text-paper/65">{t(ui.footer.shop, lang)}</h2>
+          <ul class="mt-2 text-sm md:mt-4 md:space-y-1">
+            {products.map((product) => <li><a class="foot-link" href={pagePath(lang, productPage(product))}>{t(product.name, lang)}</a></li>)}
+            <li><a class="foot-link" href={pagePath(lang, 'free-sample')}>{t(sample.name, lang)}</a></li>
+            <li><a class="foot-link" href={pagePath(lang, 'gallery')}>{t(ui.nav.gallery, lang)}</a></li>
+          </ul>
+        </nav>
+        <nav aria-label={t(ui.footer.info, lang)}>
+          <h2 class="eyebrow font-sans text-paper/65">{t(ui.footer.info, lang)}</h2>
+          <ul class="mt-2 text-sm md:mt-4 md:space-y-1">
+            {docs.map((doc) => <li><a class="foot-link" href={pagePath(lang, doc.slug)}>{t(doc.navLabel, lang)}</a></li>)}
+            <li><a class="foot-link" href={pagePath(lang, 'about')}>{t(ui.nav.about, lang)}</a></li>
+          </ul>
+        </nav>
+        <div class="col-span-2 md:col-span-1">
+          <h2 class="eyebrow font-sans text-paper/65">{t(ui.footer.contact, lang)}</h2>
+          <ul class="mt-2 text-sm md:mt-4 md:space-y-1">
+            <li><a class="foot-link" href={pagePath(lang, 'contact')}>{t(ui.footer.contactLink, lang)}</a></li>
+            <li><a class="foot-link break-all" href={`mailto:${site.email}`}>{site.email}</a></li>
+            {
+              socials.map((item) => (
+                <li>
+                  <a class="foot-link" href={item.url} target="_blank" rel="noopener noreferrer">
+                    {item.label}<span aria-hidden="true"> ↗</span><span class="sr-only">{t(ui.newTab, lang)}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+      <div class="wrap flex flex-col gap-2 border-t border-paper/15 py-6 lg:flex-row lg:items-center lg:justify-between">
+        <AiLine lang={lang} dark />
+        <p class="text-sm text-paper/75">© {new Date().getFullYear()} {site.brand.en}. {t(ui.footer.rights, lang)}</p>
+      </div>
+    </footer>
+
+    <Lightbox lang={lang} />
+
+    <!-- 记住访客主动选择的语言（只存在浏览器本地，不是 cookie，不会发给服务器） -->
+    <script is:inline>
+      document.addEventListener('click', function (event) {
+        var link = event.target.closest && event.target.closest('[data-set-lang]');
+        if (!link) return;
+        try {
+          localStorage.setItem('lang', link.getAttribute('data-set-lang'));
+        } catch (error) {}
+      });
+    </script>
+    {
+      // Cloudflare Web Analytics：不使用 cookie。没有设置 PUBLIC_CF_ANALYTICS_TOKEN 时不输出。
+      analyticsToken && (
+        <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: analyticsToken })} />
+      )
+    }
+  </body>
+</html>

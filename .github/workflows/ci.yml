@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run check
+      # build 会先生成预览，结束后自动审计 dist 里没有原图
+      - run: npm run build
+      - run: npm run check:links
+      - name: 预览图和清单必须与仓库里提交的一致
+        run: git diff --exit-code -- public/previews src/generated

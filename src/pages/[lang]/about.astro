@@ -1,0 +1,24 @@
+---
+import { aboutPage } from '../../content/site';
+import PreviewButton from '../../components/PreviewButton.astro';
+import Base from '../../layouts/Base.astro';
+import { langStaticPaths, pagePath, previewsOf, t, type Lang } from '../../lib/site';
+
+export const getStaticPaths = langStaticPaths;
+const lang = Astro.params.lang as Lang;
+const image = previewsOf('desktop')[2] ?? previewsOf('desktop')[0];
+---
+
+<Base lang={lang} page="about" title={t(aboutPage.title, lang)} description={t(aboutPage.description, lang)}>
+  <article class="wrap max-w-3xl py-12 md:py-16">
+    <h1 class="h-page">{t(aboutPage.heading, lang)}</h1>
+    {image && <PreviewButton preview={image} lang={lang} sizes="(min-width: 768px) 720px, 90vw" class="mat mt-8 p-2" />}
+    <div class="mt-8 space-y-5 text-lg">
+      {aboutPage.paragraphs.map((paragraph) => <p>{t(paragraph, lang)}</p>)}
+    </div>
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+      <a href={pagePath(lang) + '#packs'} class="btn btn-primary">{t(aboutPage.packsCta, lang)}<span aria-hidden="true">→</span></a>
+      <a href={pagePath(lang, 'contact')} class="btn btn-ghost">{t(aboutPage.contactCta, lang)}</a>
+    </div>
+  </article>
+</Base>

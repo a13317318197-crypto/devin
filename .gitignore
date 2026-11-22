@@ -1,0 +1,10 @@
+# 原图：永不提交、永不部署
+/originals/
+
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.DS_Store
