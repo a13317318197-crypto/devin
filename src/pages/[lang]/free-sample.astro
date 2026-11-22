@@ -13,23 +13,26 @@ const images = [previewsOf('phone')[1] ?? previewsOf('phone')[0], previewsOf('de
 ---
 
 <Base lang={lang} page="free-sample" title={t(samplePage.title, lang)} description={t(samplePage.description, lang)}>
-  <div class="wrap grid gap-10 py-12 md:grid-cols-2 md:gap-14 md:py-16">
+  <!-- 手机上的顺序：标题和领取按钮 → 样图 → 说明；桌面上样图在右侧 -->
+  <div class="wrap grid gap-y-9 py-12 md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-x-14 md:gap-y-8 md:py-16">
     <div>
-      <p class="eyebrow">{t(sample.name, lang)}<span aria-hidden="true"> · </span>{t(ui.free, lang)}</p>
+      <p class="eyebrow">{t(sample.name, lang)}</p>
       <h1 class="h-page mt-3">{t(samplePage.heading, lang)}</h1>
       <p class="lead mt-4">{t(samplePage.lead, lang)}</p>
       <BuyLink href={sample.gumroadUrl} lang={lang} label={t(samplePage.cta, lang)} class="mt-7 w-full sm:w-auto" />
-      <ul class="mt-8 divide-y divide-line border-y border-line text-ink-soft">
-        {samplePage.points.map((point) => <li class="py-3">{t(point, lang)}</li>)}
-      </ul>
-      <h2 class="mt-10 text-2xl">{t(samplePage.afterHeading, lang)}</h2>
-      <a href={pagePath(lang) + '#packs'} class="btn btn-ghost mt-4">{t(ui.nav.packs, lang)}<span aria-hidden="true">→</span></a>
     </div>
-    <div>
+    <div class="md:col-start-2 md:row-span-2 md:row-start-1">
       <ul class="columns-2 gap-3" data-lightbox-group>
         {images.map((preview) => <li class="tile"><PreviewButton preview={preview} lang={lang} sizes="(min-width: 768px) 25vw, 45vw" /></li>)}
       </ul>
       <PlaceholderNotice lang={lang} class="mt-3" />
+    </div>
+    <div>
+      <ul class="divide-y divide-line border-y border-line text-ink-soft">
+        {samplePage.points.map((point) => <li class="py-3">{t(point, lang)}</li>)}
+      </ul>
+      <h2 class="mt-10 text-2xl">{t(samplePage.afterHeading, lang)}</h2>
+      <a href={pagePath(lang) + '#packs'} class="btn btn-ghost mt-4">{t(ui.nav.packs, lang)}<span aria-hidden="true">→</span></a>
     </div>
   </div>
 </Base>

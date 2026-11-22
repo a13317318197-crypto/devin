@@ -16,6 +16,9 @@ const image = previewsOf('desktop')[2] ?? previewsOf('desktop')[0];
     <div class="mt-8 space-y-5 text-lg">
       {aboutPage.paragraphs.map((paragraph) => <p>{t(paragraph, lang)}</p>)}
     </div>
-    <a href={pagePath(lang, 'contact')} class="btn btn-ghost mt-8">{t(aboutPage.contactCta, lang)}<span aria-hidden="true">→</span></a>
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+      <a href={pagePath(lang) + '#packs'} class="btn btn-primary">{t(aboutPage.packsCta, lang)}<span aria-hidden="true">→</span></a>
+      <a href={pagePath(lang, 'contact')} class="btn btn-ghost">{t(aboutPage.contactCta, lang)}</a>
+    </div>
   </article>
 </Base>

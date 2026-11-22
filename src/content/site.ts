@@ -244,6 +244,7 @@ export const ui = {
     info: { en: 'Information', zh: '说明' },
     follow: { en: 'Follow', zh: '关注' },
     contact: { en: 'Contact', zh: '联系' },
+    contactLink: { en: 'How to reach me', zh: '联系方式' },
     rights: { en: 'All rights reserved.', zh: '保留所有权利。' },
   },
 
@@ -510,6 +511,7 @@ export const aboutPage = {
       zh: '付款和文件交付全部由 Gumroad 完成。这个网站只是一个展示页：没有账号，没有 cookie，没有表单。',
     },
   ],
+  packsCta: { en: 'See the packs', zh: '看看素材包' },
   contactCta: { en: 'Get in touch', zh: '联系我' },
 };
 

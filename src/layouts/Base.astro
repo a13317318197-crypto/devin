@@ -117,8 +117,8 @@ const socials = site.social.filter((item) => item.url);
     </main>
 
     <footer class="bg-ink text-paper">
-      <div class="wrap grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:py-20">
-        <div>
+      <div class="wrap grid grid-cols-[1.3fr_1fr] gap-x-6 gap-y-9 py-12 md:grid-cols-3 md:gap-10 md:py-16 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:py-20">
+        <div class="col-span-2 md:col-span-3 lg:col-span-1">
           <div class="flex items-center gap-4">
             <Seal />
             <p class="font-serif text-2xl leading-tight">
@@ -129,28 +129,28 @@ const socials = site.social.filter((item) => item.url);
         </div>
         <nav aria-label={t(ui.footer.shop, lang)}>
           <h2 class="eyebrow font-sans text-paper/65">{t(ui.footer.shop, lang)}</h2>
-          <ul class="mt-4 space-y-1 text-sm">
-            {products.map((product) => <li><a class="inline-block py-1 text-paper/80 transition-colors hover:text-white" href={pagePath(lang, productPage(product))}>{t(product.name, lang)}</a></li>)}
-            <li><a class="inline-block py-1 text-paper/80 transition-colors hover:text-white" href={pagePath(lang, 'free-sample')}>{t(sample.name, lang)}</a></li>
-            <li><a class="inline-block py-1 text-paper/80 transition-colors hover:text-white" href={pagePath(lang, 'gallery')}>{t(ui.nav.gallery, lang)}</a></li>
+          <ul class="mt-2 text-sm md:mt-4 md:space-y-1">
+            {products.map((product) => <li><a class="foot-link" href={pagePath(lang, productPage(product))}>{t(product.name, lang)}</a></li>)}
+            <li><a class="foot-link" href={pagePath(lang, 'free-sample')}>{t(sample.name, lang)}</a></li>
+            <li><a class="foot-link" href={pagePath(lang, 'gallery')}>{t(ui.nav.gallery, lang)}</a></li>
           </ul>
         </nav>
         <nav aria-label={t(ui.footer.info, lang)}>
           <h2 class="eyebrow font-sans text-paper/65">{t(ui.footer.info, lang)}</h2>
-          <ul class="mt-4 space-y-1 text-sm">
-            {docs.map((doc) => <li><a class="inline-block py-1 text-paper/80 transition-colors hover:text-white" href={pagePath(lang, doc.slug)}>{t(doc.navLabel, lang)}</a></li>)}
-            <li><a class="inline-block py-1 text-paper/80 transition-colors hover:text-white" href={pagePath(lang, 'about')}>{t(ui.nav.about, lang)}</a></li>
+          <ul class="mt-2 text-sm md:mt-4 md:space-y-1">
+            {docs.map((doc) => <li><a class="foot-link" href={pagePath(lang, doc.slug)}>{t(doc.navLabel, lang)}</a></li>)}
+            <li><a class="foot-link" href={pagePath(lang, 'about')}>{t(ui.nav.about, lang)}</a></li>
           </ul>
         </nav>
-        <div>
+        <div class="col-span-2 md:col-span-1">
           <h2 class="eyebrow font-sans text-paper/65">{t(ui.footer.contact, lang)}</h2>
-          <ul class="mt-4 space-y-1 text-sm">
-            <li><a class="inline-block py-1 text-paper/80 transition-colors hover:text-white" href={pagePath(lang, 'contact')}>{t(ui.footer.contact, lang)}</a></li>
-            <li><a class="inline-block py-1 text-paper/80 transition-colors hover:text-white break-all" href={`mailto:${site.email}`}>{site.email}</a></li>
+          <ul class="mt-2 text-sm md:mt-4 md:space-y-1">
+            <li><a class="foot-link" href={pagePath(lang, 'contact')}>{t(ui.footer.contactLink, lang)}</a></li>
+            <li><a class="foot-link break-all" href={`mailto:${site.email}`}>{site.email}</a></li>
             {
               socials.map((item) => (
                 <li>
-                  <a class="inline-block py-1 text-paper/80 transition-colors hover:text-white" href={item.url} target="_blank" rel="noopener noreferrer">
+                  <a class="foot-link" href={item.url} target="_blank" rel="noopener noreferrer">
                     {item.label}<span aria-hidden="true"> ↗</span><span class="sr-only">{t(ui.newTab, lang)}</span>
                   </a>
                 </li>
@@ -159,7 +159,7 @@ const socials = site.social.filter((item) => item.url);
           </ul>
         </div>
       </div>
-      <div class="wrap flex flex-col gap-2 border-t border-paper/15 py-6 md:flex-row md:items-center md:justify-between">
+      <div class="wrap flex flex-col gap-2 border-t border-paper/15 py-6 lg:flex-row lg:items-center lg:justify-between">
         <AiLine lang={lang} dark />
         <p class="text-sm text-paper/75">© {new Date().getFullYear()} {site.brand.en}. {t(ui.footer.rights, lang)}</p>
       </div>

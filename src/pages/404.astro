@@ -7,15 +7,18 @@ import { HTML_LANG, LANGS, pagePath, t } from '../lib/site';
 
 <Base lang="en" page="" title={t(notFoundPage.title, 'en')} description={t(notFoundPage.body, 'en')} noindex>
   <div class="wrap max-w-3xl py-20 text-center md:py-28">
-    <p class="font-serif text-7xl text-seal">404</p>
+    <p class="eyebrow">404</p>
     {
-      LANGS.map((lang) => (
-        <div class="mt-10" lang={HTML_LANG[lang]}>
-          <h1 class="text-3xl md:text-4xl">{t(notFoundPage.heading, lang)}</h1>
-          <p class="lead mt-3">{t(notFoundPage.body, lang)}</p>
-          <a href={pagePath(lang)} class="btn btn-ghost mt-5">{t(notFoundPage.cta, lang)}</a>
-        </div>
-      ))
+      LANGS.map((lang, index) => {
+        const Heading = index === 0 ? 'h1' : 'h2';
+        return (
+          <div class:list={index === 0 ? 'mt-5' : 'mt-12 border-t border-line pt-12'} lang={HTML_LANG[lang]}>
+            <Heading class="text-3xl md:text-4xl">{t(notFoundPage.heading, lang)}</Heading>
+            <p class="lead mt-3">{t(notFoundPage.body, lang)}</p>
+            <a href={pagePath(lang)} class:list={['btn mt-6', index === 0 ? 'btn-primary' : 'btn-ghost']}>{t(notFoundPage.cta, lang)}</a>
+          </div>
+        );
+      })
     }
   </div>
 </Base>

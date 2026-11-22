@@ -98,6 +98,10 @@
   .icon-btn {
     @apply inline-flex size-11 items-center justify-center rounded-full border border-line bg-paper text-xl leading-none text-ink transition-colors hover:border-ink;
   }
+  /* 页脚链接：手机上保证 44px 的点击高度 */
+  .foot-link {
+    @apply inline-flex min-h-11 items-center text-paper/80 no-underline transition-colors hover:text-white md:min-h-0 md:py-1;
+  }
   /* 作品放在「卡纸」上：不裁切，完整显示 */
   .mat {
     @apply bg-mat;
