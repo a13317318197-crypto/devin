@@ -26,7 +26,7 @@ const jsonLd = {
 
 <Base lang={lang} page="" title={t(home.title, lang)} description={t(home.description, lang)} jsonLd={jsonLd}>
   <section class="hero-wash">
-    <div class="wrap grid items-center gap-6 pt-5 pb-14 md:grid-cols-[1fr_1.05fr] md:gap-16 md:pt-24 md:pb-28">
+    <div class="wrap grid items-center gap-6 pt-5 pb-14 md:grid-cols-[1fr_1.05fr] md:gap-10 md:pt-16 md:pb-20 lg:gap-16 lg:pt-24 lg:pb-28">
       <div class="relative mx-auto w-[88%] max-w-md pt-2 pb-12 md:order-last md:w-full md:max-w-none md:pt-3 md:pb-16" data-lightbox-group>
         {
           heroDesktop && (
@@ -53,11 +53,11 @@ const jsonLd = {
       </div>
       <div>
         <p class="eyebrow">{t(home.hero.eyebrow, lang)}</p>
-        <h1 class="mt-4 text-[2.15rem] leading-[1.14] md:mt-5 md:text-[3.6rem] md:leading-[1.08]">{t(home.hero.headline, lang)}</h1>
+        <h1 class="mt-4 text-[2.15rem] leading-[1.14] md:mt-5 md:text-[2.6rem] md:leading-[1.1] lg:text-[3.6rem] lg:leading-[1.08]">{t(home.hero.headline, lang)}</h1>
         <p class="lead mt-4 max-w-xl md:mt-6">{t(home.hero.lead, lang)}</p>
-        <div class="mt-7 flex flex-col gap-3 sm:flex-row md:mt-9">
-          <a href="#packs" class="btn btn-primary">{t(home.hero.primary, lang)}</a>
-          <a href={pagePath(lang, 'free-sample')} class="btn btn-ghost">{t(home.hero.secondary, lang)}</a>
+        <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:mt-9">
+          <a href="#packs" class="btn btn-primary sm:whitespace-nowrap">{t(home.hero.primary, lang)}</a>
+          <a href={pagePath(lang, 'free-sample')} class="btn btn-ghost sm:whitespace-nowrap">{t(home.hero.secondary, lang)}</a>
         </div>
       </div>
     </div>
