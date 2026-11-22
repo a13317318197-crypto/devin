@@ -27,7 +27,7 @@ const images = [previewsOf('phone')[1] ?? previewsOf('phone')[0], previewsOf('de
     </div>
     <div>
       <ul class="columns-2 gap-3" data-lightbox-group>
-        {images.map((preview) => <li class="mat mb-3 break-inside-avoid p-1.5"><PreviewButton preview={preview} lang={lang} sizes="(min-width: 768px) 25vw, 45vw" /></li>)}
+        {images.map((preview) => <li class="tile"><PreviewButton preview={preview} lang={lang} sizes="(min-width: 768px) 25vw, 45vw" /></li>)}
       </ul>
       <PlaceholderNotice lang={lang} class="mt-3" />
     </div>

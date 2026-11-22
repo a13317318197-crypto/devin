@@ -50,8 +50,12 @@ export const interleave = (categories: PreviewCategory[]) => {
   for (let i = 0; i < longest; i += 1) for (const list of lists) if (list[i]) mixed.push(list[i]);
   return mixed;
 };
-// 合集把分类顺序倒过来排，这样它的第一张图不会和单品包的封面重复
-export const previewsForProduct = (product: Product) => interleave(product.previews.length > 1 ? [...product.previews].reverse() : product.previews);
+// 合集从每个分类的第二张开始排，这样它的封面不会和任何一个单品包的封面重复
+export const previewsForProduct = (product: Product) => {
+  const mixed = interleave(product.previews);
+  const skip = product.previews.length;
+  return skip > 1 && mixed.length > skip ? [...mixed.slice(skip), ...mixed.slice(0, skip)] : mixed;
+};
 /** 一张预览图所属的单品包（合集除外） */
 export const packOf = (preview: Preview) => products.find((product) => product.previews.length === 1 && product.previews[0] === preview.category)!;
 export const altFor = (preview: Preview, lang: Lang) => t(ui.alt[preview.category], lang, { n: Number(preview.id.split('-').pop()) });

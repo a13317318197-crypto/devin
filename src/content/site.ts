@@ -185,6 +185,7 @@ export const ui = {
 
   // {count} 会换成张数
   imagesCount: { en: '{count} images', zh: '{count} 张' },
+  labelImages: { en: 'Images', zh: '张数' },
   labelRatio: { en: 'Ratio', zh: '比例' },
   labelResolution: { en: 'Resolution', zh: '分辨率' },
   labelFormat: { en: 'Format', zh: '格式' },
@@ -282,6 +283,27 @@ export const home = {
     secondary: { en: 'Get 3 free samples', zh: '领取 3 张免费样图' },
   },
 
+  // 首屏下方的四条简短说明（标题 + 一句话）
+  assurancesLabel: { en: 'How buying works', zh: '购买须知' },
+  assurances: [
+    {
+      title: { en: 'Instant download', zh: '即时下载' },
+      body: { en: 'Files are yours right after checkout.', zh: '付款后马上拿到文件。' },
+    },
+    {
+      title: { en: 'Pay once', zh: '一次付清' },
+      body: { en: 'No subscription, no account on this site.', zh: '没有订阅，本站无需注册。' },
+    },
+    {
+      title: { en: 'Checkout on Gumroad', zh: '在 Gumroad 结账' },
+      body: { en: 'This site never sees your payment details.', zh: '本站不接触任何付款信息。' },
+    },
+    {
+      title: { en: 'Personal licence', zh: '个人授权' },
+      body: { en: 'For your own screens and profiles.', zh: '用于自己的屏幕与头像。' },
+    },
+  ],
+
   packs: {
     eyebrow: { en: '01 · Packs', zh: '壹 · 素材包' },
     heading: { en: 'Four ways to take it home', zh: '四种带走的方式' },
@@ -377,7 +399,6 @@ export const productPage = {
   previewHeading: { en: 'Preview gallery', zh: '预览画廊' },
   includedHeading: { en: 'What is included', zh: '包含内容' },
   // 合集里每个分包占一行：{name} 商品名，{count} 张数
-  bundleLine: { en: '{name}: {count} images', zh: '{name}：{count} 张' },
   howHeading: { en: 'How to use', zh: '使用说明' },
   // 使用说明三步
   steps: [

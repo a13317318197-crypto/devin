@@ -6,11 +6,16 @@ import { pagePath, t, type Lang } from '../lib/site';
 interface Props {
   lang: Lang;
   class?: string;
+  /** 深色背景（页脚）上用浅色文字 */
+  dark?: boolean;
 }
-const { lang, class: className } = Astro.props;
+const { lang, class: className, dark = false } = Astro.props;
 ---
 
-<p class:list={['text-sm text-ink-soft', className]}>
-  {t(ui.aiLine, lang)}
-  <a class="link" href={pagePath(lang, 'ai-disclosure')}>{t(ui.aiLineLink, lang)}</a>
+<p class:list={['text-sm', dark ? 'text-paper/75' : 'text-ink-soft', className]}>
+  {t(ui.aiLine, lang)}{' '}
+  <a
+    class:list={dark ? 'underline decoration-paper/40 underline-offset-[5px] hover:text-white hover:decoration-white' : 'link'}
+    href={pagePath(lang, 'ai-disclosure')}>{t(ui.aiLineLink, lang)}</a
+  >
 </p>
